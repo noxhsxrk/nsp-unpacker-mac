@@ -329,7 +329,7 @@ class App(tk.Tk):
         self.messages: queue.Queue = queue.Queue()
         self.cancelled = threading.Event()
         self.running = False
-        local_tool = Path(sys.executable if getattr(sys, 'frozen', False) else __file__).resolve().parent / 'nstool.exe'
+        local_tool = Path(sys.executable if getattr(sys, 'frozen', False) else __file__).resolve().parent / ('nstool.exe' if os.name == 'nt' else 'nstool')
         detected_tool = next((str(p) for p in (local_tool, DEFAULT_TOOL) if p.is_file()), shutil.which('nstool') or '')
         self.tool = tk.StringVar(value=detected_tool)
         candidates = [Path.home() / '.switch/prod.keys', DEFAULT_TOOL.parent / 'prod.keys',
